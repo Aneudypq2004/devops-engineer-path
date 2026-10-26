@@ -1,0 +1,24 @@
+@api = http://localhost:5000
+
+GET {{api}}/health
+
+###
+GET {{api}}/api/info
+
+###
+GET {{api}}/api/tasks
+
+###
+POST {{api}}/api/tasks
+Content-Type: application/json
+
+{ "title": "Install Nginx on the VM" }
+
+###
+PUT {{api}}/api/tasks/1
+Content-Type: application/json
+
+{ "title": "Install Nginx on the VM", "isDone": true }
+
+###
+DELETE {{api}}/api/tasks/1

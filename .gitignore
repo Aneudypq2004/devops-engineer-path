@@ -1,0 +1,22 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+
+# Angular / Node
+node_modules/
+dist/
+.angular/
+
+# Build outputs and deploy artifacts
+out/
+publish/
+*.tar.gz
+
+# Secrets and local config (never commit)
+.env
+.env.*
+*.local.json
+appsettings.*.local.json

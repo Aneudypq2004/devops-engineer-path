@@ -1,0 +1,72 @@
+h1 {
+  margin: 0;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin: 4px 0 16px;
+}
+
+.new-task {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.new-task input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+button {
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+button.link {
+  background: none;
+  color: #2563eb;
+  padding: 4px;
+}
+
+.error {
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.task-list li.done label {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.task-list li.empty {
+  color: #6b7280;
+}

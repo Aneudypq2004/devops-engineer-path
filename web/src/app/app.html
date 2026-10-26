@@ -1,0 +1,28 @@
+<header class="topbar">
+  <span class="brand">DevOps Lab</span>
+  <nav>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Tasks</a>
+    <a routerLink="/about" routerLinkActive="active">About</a>
+  </nav>
+</header>
+
+<main class="container">
+  <router-outlet />
+</main>
+
+<footer class="footer">
+  @switch (apiStatus().state) {
+    @case ('up') {
+      @if (apiInfo(); as info) {
+        <span class="dot ok"></span>
+        API {{ info.version }} · {{ info.environment }} · {{ info.host }}
+      }
+    }
+    @case ('down') {
+      <span class="dot down"></span> API unreachable (check Nginx proxy and the API service)
+    }
+    @default {
+      Checking API…
+    }
+  }
+</footer>

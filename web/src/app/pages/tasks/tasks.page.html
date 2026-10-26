@@ -1,0 +1,38 @@
+<h1>Tasks</h1>
+<p class="subtitle">{{ pendingCount() }} pending of {{ tasks().length }}</p>
+
+<form class="new-task" (ngSubmit)="addTask()">
+  <input
+    name="title"
+    placeholder="What do you need to do?"
+    [maxlength]="titleMaxLength"
+    [ngModel]="newTitle()"
+    (ngModelChange)="newTitle.set($event)"
+  />
+  <button type="submit" [disabled]="!canAdd()">Add</button>
+</form>
+
+@if (errorMessage(); as message) {
+  <div class="error">
+    {{ message }}
+    <button type="button" class="link" (click)="loadTasks()">Retry</button>
+  </div>
+}
+
+@if (isLoading()) {
+  <p>Loading…</p>
+} @else {
+  <ul class="task-list">
+    @for (task of tasks(); track task.id) {
+      <li [class.done]="task.isDone">
+        <label>
+          <input type="checkbox" [checked]="task.isDone" (change)="toggleDone(task)" />
+          {{ task.title }}
+        </label>
+        <button type="button" class="link" (click)="deleteTask(task)">Delete</button>
+      </li>
+    } @empty {
+      <li class="empty">No tasks yet.</li>
+    }
+  </ul>
+}
