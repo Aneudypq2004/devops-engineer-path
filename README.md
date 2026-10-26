@@ -1,6 +1,6 @@
 # DevOps Lab
 
-> **Plan DevOps: de desarrollador full-stack a DevOps Engineer**
+> **DevOps Plan: from Full-Stack Developer to DevOps Engineer**
 >
 > A hands-on learning path for moving from full-stack development to DevOps engineering.
 
@@ -8,8 +8,10 @@ This repository holds the practice apps for the plan. The code is deliberately s
 
 ## Contents
 
+- [Starting point: the full-stack developer](#starting-point-the-full-stack-developer)
 - [Learning path](#learning-path)
 - [Architecture](#architecture)
+- [Technologies](#technologies)
 - [Repository layout](#repository-layout)
 - [Endpoints](#endpoints)
 - [Run locally on Windows](#run-locally-on-windows)
@@ -17,6 +19,20 @@ This repository holds the practice apps for the plan. The code is deliberately s
 - [What is deliberately NOT here](#what-is-deliberately-not-here)
 - [Working method](#working-method)
 - [Rules](#rules)
+
+## Starting point: the full-stack developer
+
+The path starts from a working full-stack developer. The technologies below are what I already build with, and each one maps to a DevOps skill I need to learn.
+
+| Area | Technologies I already use | DevOps skill it leads to |
+| --- | --- | --- |
+| Frontend web | **Angular**, TypeScript, HTML/CSS | Building and serving static assets, Nginx, CDN and caching |
+| Mobile | **Flutter** | Build pipelines, app signing, release automation |
+| Backend | **.NET** / C# (ASP.NET Core, EF Core), **Odoo** | Running services in production, systemd, containers, migrations |
+| Data | PostgreSQL, SQL Server, Firestore | Backups, access control, running databases safely |
+| Backend as a service | **Firebase** (Auth, Firestore, Functions, Hosting) | Managed cloud services, secrets, security rules |
+| Cloud | **Google Cloud**, **Azure** | IAM, networking, infrastructure as code |
+| Tooling | Git, **Bitbucket**, **Jira**, **Sentry** | CI/CD with Bitbucket Pipelines, observability, incident tracking |
 
 ## Learning path
 
@@ -57,6 +73,46 @@ Mark a phase ✅ when its outcome works end to end and its problems are written 
 | API | ASP.NET Core (.NET 10), EF Core + Npgsql, xUnit | [api/](api/) |
 | Web | Angular 21 (standalone, signals, zoneless), Vitest | [web/](web/) |
 | Database | PostgreSQL (in the Ubuntu VM) | - |
+
+## Technologies
+
+### Application
+
+| Technology | Role in this project |
+| --- | --- |
+| **ASP.NET Core (.NET 10)** | Web API framework. Runs on the built-in Kestrel server and exposes the tasks CRUD, `/api/info` and `/health` through controllers. |
+| **Entity Framework Core 10** | ORM that maps `TaskItem` to tables, runs queries and manages schema changes through migrations (`dotnet ef`). |
+| **Npgsql** | The PostgreSQL provider for EF Core. |
+| **ASP.NET Core Health Checks** | The `/health` endpoint, including a database check. Deploy scripts and monitors use it to tell if the app is really up. |
+| **OpenAPI** | Generates the API description, enabled in Development only. |
+| **xUnit** | Unit tests for the service layer (`TaskServiceTests`). |
+| **Angular 21** | Single-page frontend built with standalone components, signals and zoneless change detection. It always calls relative `/api/...` URLs. |
+| **TypeScript** | Language for the frontend, with strict type checking. |
+| **Vitest + jsdom** | Test runner and DOM environment for the Angular unit tests. |
+| **Prettier** | Code formatting for the web project. |
+| **npm** | Package manager for the web project (`npm ci` for reproducible installs). |
+
+### Infrastructure and operations
+
+| Technology | Role in this project |
+| --- | --- |
+| **Ubuntu Server (VM)** | The Linux machine where the stack is deployed and operated. |
+| **netplan** | Configures the VM's static IP, gateway and DNS (see [testing-files/netplan.yml](testing-files/netplan.yml)). |
+| **OpenSSH** | Remote access to the VM and the tunnel (`ssh -L`) that reaches PostgreSQL from Windows. |
+| **PostgreSQL** | Relational database. It listens only on `localhost` inside the VM. |
+| **Nginx** | Reverse proxy and static file server. Terminates HTTPS, serves the Angular build and forwards `/api` and `/health` to Kestrel. |
+| **systemd** | Runs the API as a service: starts it on boot, restarts it on failure, and supplies the environment file. |
+| **.NET user-secrets** | Keeps the local connection string out of Git during development. |
+
+### Planned (later phases)
+
+| Technology | Phase | Purpose |
+| --- | --- | --- |
+| **Docker / Docker Compose** | 4 | Package and run the whole stack as containers. |
+| **Bitbucket Pipelines** | 5 | Build, test and deploy on every merge to `main`. |
+| **Azure / Google Cloud** | 6 | Host the environment in the cloud. |
+| **Terraform or Bicep** | 6 | Define the infrastructure as code. |
+| **Sentry** | 7 | Error tracking and alerting. |
 
 ## Repository layout
 
