@@ -20,3 +20,5 @@ publish/
 .env.*
 *.local.json
 appsettings.*.local.json
+devops.lab-key.pem
+devops.lab.pem

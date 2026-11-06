@@ -1,0 +1,17 @@
+[Unit]
+Description=Devops Tasks API
+After=network.target postgresql.service
+Wants=postgresql.service
+[Service]
+WorkingDirectory=/opt/devops-api
+ExecStart=/usr/bin/dotnet /opt/devops-api/DevOpsLab.Api.dll
+User=www-api
+Group=www-api
+Restart=always
+RestartSec=5
+SyslogIdentifier=devops-api
+Environment=ASPNETCORE_URLS=http://127.0.0.1:5000
+Environment=ASPNETCORE_ENVIRONMENT=Production
+EnvironmentFile=/etc/devops-api/env
+[Install]
+WantedBy=multi-user.target
