@@ -1,0 +1,15 @@
+# /etc/systemd/system/devops-backup.service
+[Unit]
+Description=Nightly PostgreSQL backup
+[Service]
+Type=oneshot
+User=postgres
+ExecStart=/opt/devops-lab/scripts/backup-db.sh
+# /etc/systemd/system/devops-backup.timer
+[Unit]
+Description=Run PostgreSQL backup at 02:00
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+[Install]
+WantedBy=timers.target
