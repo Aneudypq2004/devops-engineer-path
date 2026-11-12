@@ -22,3 +22,7 @@ publish/
 appsettings.*.local.json
 devops.lab-key.pem
 devops.lab.pem
+# Deploy artifacts
+api/src/DevOpsLab.Api/efbundle
+deploy/db-backups/
+deploy/logs/

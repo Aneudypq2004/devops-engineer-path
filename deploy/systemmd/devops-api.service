@@ -1,10 +1,12 @@
+# /etc/systemd/system/devops-api.service
+
 [Unit]
 Description=Devops Tasks API
 After=network.target postgresql.service
 Wants=postgresql.service
 [Service]
-WorkingDirectory=/opt/devops-api
-ExecStart=/usr/bin/dotnet /opt/devops-api/DevOpsLab.Api.dll
+WorkingDirectory=/opt/devops-api/current
+ExecStart=/usr/bin/dotnet /opt/devops-api/current/DevOpsLab.Api.dll
 User=www-api
 Group=www-api
 Restart=always
