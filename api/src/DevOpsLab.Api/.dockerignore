@@ -1,0 +1,24 @@
+# api/src/DevOpsLab.Api/.dockerignore (build context = ./api/src/DevOpsLab.Api)
+# Build output (rebuilt inside the image)
+**/bin
+**/obj
+**/publish
+efbundle
+
+# Editor and VCS
+.git
+.gitignore
+.vs
+.vscode
+**/*.user
+
+# Secrets and local config
+.env
+.env.*
+**/appsettings.*.local.json
+**/secrets.dev.yaml
+
+# Docker files and docs
+Dockerfile*
+.dockerignore
+*.md

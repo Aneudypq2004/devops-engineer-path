@@ -1,0 +1,23 @@
+# web/.dockerignore (build context = ./web)
+# Never send host build output or dependencies: `COPY . .` would overwrite the
+# Linux node_modules installed by `npm ci` with the Windows ones.
+node_modules
+dist
+.angular
+coverage
+
+# Editor and VCS
+.git
+.gitignore
+.vscode
+.idea
+
+# Secrets and local config
+.env
+.env.*
+
+# Docker files and docs
+Dockerfile*
+DockerFile
+.dockerignore
+*.md

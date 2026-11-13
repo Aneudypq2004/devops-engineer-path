@@ -1,0 +1,10 @@
+# .dockerignore
+**/node_modules
+**/dist
+**/bin
+**/obj
+.git
+.env
+*.md
+Dockerfile*
+compose*.yaml

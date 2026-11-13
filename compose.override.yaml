@@ -1,0 +1,7 @@
+# compose.override.yaml (development)
+services:
+  api:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "127.0.0.1:5000:8080"
