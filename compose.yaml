@@ -77,6 +77,21 @@ services:
       - backend
     restart: unless-stopped
 
+  migrate:
+    image: mcr.microsoft.com/dotnet/runtime-deps:10.0
+    profiles: ["tools"]   # not started by `docker compose up`; run on demand
+    volumes:
+      - ./efbundle:/app/efbundle:ro
+    command:
+      - /app/efbundle
+      - --connection
+      - "Host=db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - backend
+
 networks:
   frontend:
   backend:

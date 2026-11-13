@@ -27,3 +27,4 @@ devops.lab.pem
 api/src/DevOpsLab.Api/efbundle
 deploy/db-backups/
 deploy/logs/
+/efbundle
