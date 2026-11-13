@@ -1,0 +1,34 @@
+# .github/workflows/ci.yml
+name: ci
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  api:
+    uses: ./.github/workflows/dotnet-ci.yml
+    with:
+      project: api
+
+  deploy-staging:
+    needs: api
+    if: github.ref == 'refs/heads/main'
+    runs-on: self-hosted
+    environment: staging   # required reviewers = manual approval
+    permissions:
+      id-token: write      # needed for OIDC
+      contents: read
+    steps:
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - run: az acr login --name <acr-name>

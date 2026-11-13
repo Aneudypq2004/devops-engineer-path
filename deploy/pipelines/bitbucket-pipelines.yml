@@ -1,0 +1,42 @@
+image: atlassian/default-image:4
+
+definitions:
+  caches:
+    npm:
+      key:
+        files:
+          - web/package-lock.json
+      path: web/.npm
+
+  steps:
+    - step: &ci-api
+        name: API build and test
+        image: mcr.microsoft.com/dotnet/sdk:10.0
+        caches:
+          - dotnetcore
+        script:
+          - dotnet restore
+          - dotnet build --no-restore -c Release
+          - dotnet test --no-build -c Release
+          - dotnet format --verify-no-changes
+
+    - step: &ci-web
+        name: Web lint, test and build
+        image: node:22
+        caches:
+          - npm
+        script:
+          - cd web
+          - npm ci --cache .npm --prefer-offline
+          - npx ng lint
+          - npx ng test --watch=false
+          - npx ng build
+        artifacts:
+          - web/dist/**
+
+pipelines:
+  pull-requests:
+    '**':
+      - parallel:
+          - step: *ci-api
+          - step: *ci-web

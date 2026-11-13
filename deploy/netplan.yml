@@ -1,4 +1,4 @@
-# /etc/netplan
+# /etc/netplan 
 network:
   version: 2
   ethernets:

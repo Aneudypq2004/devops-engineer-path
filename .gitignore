@@ -18,6 +18,7 @@ publish/
 # Secrets and local config (never commit)
 .env
 .env.*
+!.env.example
 *.local.json
 appsettings.*.local.json
 devops.lab-key.pem

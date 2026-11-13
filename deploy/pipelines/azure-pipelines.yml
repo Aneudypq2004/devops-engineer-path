@@ -1,0 +1,54 @@
+# deploy/pipelines/azure-pipelines.yml (Azure DevOps)
+trigger:
+  branches:
+    include:
+      - main
+
+variables:
+  - group: devops-lab-secrets   # variable group linked to Azure Key Vault
+
+stages:
+  - stage: CI
+    jobs:
+      - job: api
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: UseDotNet@2
+            inputs:
+              packageType: sdk
+              version: '10.x'
+          - script: |
+              dotnet restore
+              dotnet build --no-restore -c Release
+              dotnet test --no-build -c Release
+            displayName: Build and test API
+            workingDirectory: api   # the solution lives in api/, not in the repo root
+
+      - job: web
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '22.x'
+          - script: |
+              cd web
+              npm ci
+              npx ng lint
+              npx ng build
+            displayName: Lint and build web
+
+  - stage: DeployStaging
+    dependsOn: CI
+    jobs:
+      - deployment: staging
+        environment: staging   # approvals are configured on the environment
+        pool:
+          name: lab-pool       # self-hosted agent pool
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: ssh deploy@$(DEPLOY_HOST) /opt/devops-lab/deploy-compose.sh $(Build.SourceVersion)
+                  displayName: Deploy to staging
