@@ -1,0 +1,30 @@
+- name: Install base packages
+  ansible.builtin.apt:
+    name: [ufw, curl, git, htop, unattended-upgrades]
+    state: present
+    update_cache: true
+
+- name: Disable ssh password authentication
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config.d/10-hardening.conf
+    mode: "0644"
+    create: true
+    line: "PasswordAuthentication no"
+    validate: 'sshd -t -f %s'
+    notify: Reload ssh
+
+- name: Allow http, https and ssh through the firewall
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 22
+    - 80
+    - 443
+
+- name: Enable the firewall default deny incoming and allow outgoing
+  community.general.ufw:
+    state: enabled
+    policy: deny
+    direction: incoming

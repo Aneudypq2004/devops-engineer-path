@@ -1,0 +1,5 @@
+subscription_id         = "00000000-0000-0000-0000-000000000000"
+location                = "eastus"
+env                     = "staging"
+ssh_public_key          = "replace-with-your-ssh-public-key"
+postgres_admin_password = "replace-with-a-secure-password"

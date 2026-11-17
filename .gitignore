@@ -28,3 +28,9 @@ api/src/DevOpsLab.Api/efbundle
 deploy/db-backups/
 deploy/logs/
 /efbundle
+
+# Terraform local state and cache
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
