@@ -34,3 +34,4 @@ deploy/logs/
 *.tfstate
 *.tfstate.*
 *.tfplan
+observability/webhook_url

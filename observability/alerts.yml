@@ -1,0 +1,20 @@
+groups:
+  - name: app
+    rules:
+      - alert: HighErrorRate
+        expr: |
+          sum(rate(http_server_request_duration_seconds_count{http_response_status_code=~"5.."}[5m]))
+          / sum(rate(http_server_request_duration_seconds_count[5m])) > 0.05
+        for: 5m
+        labels: { severity: critical }
+        annotations: { summary: "5xx error rate above 5% for 5 minutes" }
+
+      - alert: ContainerRestarting
+        expr: changes(container_start_time_seconds{name!=""}[15m]) > 3
+        for: 5m
+        labels: { severity: warning }
+
+      - alert: DiskAlmostFull
+        expr: (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes) > 0.8
+        for: 10m
+        labels: { severity: warning }

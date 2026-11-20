@@ -1,0 +1,9 @@
+route:
+  receiver: team
+  group_by: [alertname]
+  repeat_interval: 4h
+
+receivers:
+  - name: team
+    webhook_configs:
+      - url_file: /etc/alertmanager/webhook_url

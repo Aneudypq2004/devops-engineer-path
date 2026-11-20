@@ -20,14 +20,18 @@ services:
 
   web:
     image: ${REGISTRY}/devops-web:${APP_VERSION}
-    build: ./web
+    build:
+      context: ./web
+      dockerfile: DockerFile
     networks:
       - frontend
     restart: unless-stopped
 
   api:
     image: ${REGISTRY}/devops-api:${APP_VERSION}
-    build: ./api
+    build:
+      context: ./api/src/DevOpsLab.Api
+      dockerfile: Dockerfile
     environment:
       ConnectionStrings__Default: "Host=db;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
       ConnectionStrings__Redis: redis:6379
